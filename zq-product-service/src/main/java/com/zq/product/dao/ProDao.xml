@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zq.product.dao.ProDao">
+  <resultMap id="BaseResultMap" type="com.zq.product.entity.Product">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="proName" jdbcType="VARCHAR" property="proName" />
+    <result column="proStock" jdbcType="INTEGER" property="proStock" />
+    <result column="proType" jdbcType="CHAR" property="proType" />
+    <result column="putAwayTime" jdbcType="TIMESTAMP" property="putAwayTime" />
+    <result column="proStatus" jdbcType="INTEGER" property="proStatus" />
+    <result column="imgUrl" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="proTypeId" jdbcType="CHAR" property="proTypeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, proName, proStock, proType, putAwayTime, proStatus,imgUrl, proTypeId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from s_product
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from s_product
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zq.product.entity.Product">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into s_product (proName, proStock, proType, 
+      putAwayTime, proStatus, proTypeId
+      )
+    values (#{proName,jdbcType=VARCHAR}, #{proStock,jdbcType=INTEGER}, #{proType,jdbcType=CHAR}, 
+      #{putAwayTime,jdbcType=TIMESTAMP}, #{proStatus,jdbcType=INTEGER}, #{proTypeId,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zq.product.entity.Product">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into s_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="proName != null">
+        proName,
+      </if>
+      <if test="proStock != null">
+        proStock,
+      </if>
+      <if test="proType != null">
+        proType,
+      </if>
+      <if test="putAwayTime != null">
+        putAwayTime,
+      </if>
+      <if test="proStatus != null">
+        proStatus,
+      </if>
+      <if test="proTypeId != null">
+        proTypeId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="proName != null">
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proStock != null">
+        #{proStock,jdbcType=INTEGER},
+      </if>
+      <if test="proType != null">
+        #{proType,jdbcType=CHAR},
+      </if>
+      <if test="putAwayTime != null">
+        #{putAwayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proStatus != null">
+        #{proStatus,jdbcType=INTEGER},
+      </if>
+      <if test="proTypeId != null">
+        #{proTypeId,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zq.product.entity.Product">
+    update s_product
+    <set>
+      <if test="proName != null">
+        proName = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proStock != null">
+        proStock = #{proStock,jdbcType=INTEGER},
+      </if>
+      <if test="proType != null">
+        proType = #{proType,jdbcType=CHAR},
+      </if>
+      <if test="putAwayTime != null">
+        putAwayTime = #{putAwayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proStatus != null">
+        proStatus = #{proStatus,jdbcType=INTEGER},
+      </if>
+      <if test="proTypeId != null">
+        proTypeId = #{proTypeId,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zq.product.entity.Product">
+    update s_product
+    set proName = #{proName,jdbcType=VARCHAR},
+      proStock = #{proStock,jdbcType=INTEGER},
+      proType = #{proType,jdbcType=CHAR},
+      putAwayTime = #{putAwayTime,jdbcType=TIMESTAMP},
+      proStatus = #{proStatus,jdbcType=INTEGER},
+      proTypeId = #{proTypeId,jdbcType=CHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+
+  <select id="selectAllPro" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from s_product
+  </select>
+
+    <select id="getProPrice" parameterType="map" resultType="String">
+        select price from  s_proSpu where proId =#{proId} and model =#{model} and size =#{size} and color =#{color}
+    </select>
+</mapper>

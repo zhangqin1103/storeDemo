@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zq.product.dao.BuyCarDao">
+  <resultMap id="BaseResultMap" type="com.zq.product.entity.BuyCar">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="userId" jdbcType="CHAR" property="userId" />
+    <result column="productId" jdbcType="CHAR" property="productId" />
+    <result column="productName" jdbcType="VARCHAR" property="productName" />
+    <result column="proNum" jdbcType="BIGINT" property="proNum" />
+    <result column="proSpu" jdbcType="VARCHAR" property="proSpu" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userId, productId,productName, proNum, proSpu, status, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from s_buycar
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from s_buycar
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zq.product.entity.BuyCar">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into s_buycar (userId, productId, proNum, 
+      proSpu, status, createTime
+      )
+    values (#{userId,jdbcType=CHAR}, #{productId,jdbcType=CHAR}, #{proNum,jdbcType=BIGINT}, 
+      #{proSpu,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zq.product.entity.BuyCar">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into s_buycar
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="productId != null">
+        productId,
+      </if>
+      <if test="proNum != null">
+        proNum,
+      </if>
+      <if test="proSpu != null">
+        proSpu,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=CHAR},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=CHAR},
+      </if>
+      <if test="proNum != null">
+        #{proNum,jdbcType=BIGINT},
+      </if>
+      <if test="proSpu != null">
+        #{proSpu,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zq.product.entity.BuyCar">
+    update s_buycar
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=CHAR},
+      </if>
+      <if test="productId != null">
+        productId = #{productId,jdbcType=CHAR},
+      </if>
+      <if test="proNum != null">
+        proNum = #{proNum,jdbcType=BIGINT},
+      </if>
+      <if test="proSpu != null">
+        proSpu = #{proSpu,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zq.product.entity.BuyCar">
+    update s_buycar
+    set userId = #{userId,jdbcType=CHAR},
+      productId = #{productId,jdbcType=CHAR},
+      proNum = #{proNum,jdbcType=BIGINT},
+      proSpu = #{proSpu,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+
+  <insert id="insertBuyCar" parameterType="com.zq.product.entity.BuyCar">
+     insert into s_buycar (id,userId, productId,productName, proNum,proSpu, status)
+    values (uuid(),#{userId,jdbcType=CHAR}, #{productId,jdbcType=CHAR},#{productName,jdbcType=VARCHAR}, #{proNum,jdbcType=BIGINT},
+      #{proSpu,jdbcType=VARCHAR}, #{status,jdbcType=CHAR})
+
+  </insert>
+
+  <select id="selectByUserId" parameterType="String" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
+    from s_buycar
+    where userId = #{userId,jdbcType=CHAR}
+  </select>
+</mapper>

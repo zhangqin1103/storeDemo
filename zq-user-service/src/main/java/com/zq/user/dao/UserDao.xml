@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zq.user.dao.UserDao">
+    <select id="selectByLoginName" parameterType="String" resultType="User">
+     select * from s_user where loginName = #{loginName}
+ </select>
+    <select id="selectByPhoneNo" parameterType="String" resultType="User">
+     select * from s_user where phoneNo = #{phoneNo}
+ </select>
+
+    <select id="getUserInfo" parameterType="String" resultType="User">
+     select * from s_user where loginName = #{loginUser}
+ </select>
+
+</mapper>

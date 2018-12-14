@@ -1,0 +1,17 @@
+[
+  { "field": "name", "title": "名称","minWidth": "120px","dataType":"String"},
+  { "field": "time", "title": "时间","minWidth": "140px","dataType":"Date" },
+  { "field": "card_no", "title": "卡号", "minWidth": "150px","dataType":"Number","goptions":{"precision":2,"min":0.00,"max":999.99}},
+  { "field": "colType", "title": "类型","minWidth":"150px","dataType":"Array",
+    "selectOptions":[
+      {"text":"String","value":"1001"},{"text":"Number","value":"1002"},{"text":"Date","value":"1003"}
+    ]
+  },
+  { "field": "userName", "title": "姓名","dataType":"String", "minWidth": "100px" },
+  { "field": "mediaType", "title": "付款方式",  "minWidth": "150px","dataType":"Array","selectOptions":[
+    {"text":"微信支付","value":"1001"},{"text":"支付宝支付","value":"1002"},{"text":"现金支付","value":"1003"}
+  ]},
+  { "field": "xx", "title": "xx","minWidth": "180px","dataType":"DateTime","hidden":true },
+  { "field": "yy", "title": "yy", "minWidth": "100px","dataType":"String","hidden":true}
+]
+

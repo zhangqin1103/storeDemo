@@ -1,0 +1,50 @@
+[
+  {
+    "FM": "FM0001",
+    "TEXT": "系统首页",
+    "URL": "/",
+    "ICON": "el-icon-location",
+    "POWER": true,
+    "LEAF": true
+  },
+  {
+    "FM": "FM0002",
+    "TEXT": "组织管理",
+    "URL": "/org",
+    "ICON": "el-icon-share",
+    "POWER": true,
+    "LEAF": true
+  },
+  {
+    "FM": "FM0003",
+    "TEXT": "购买商品",
+    "URL": "/storeList",
+    "ICON": "el-icon-message",
+    "POWER": true,
+    "LEAF": true
+  },
+  {
+    "FM": "FM0006",
+    "TEXT": "系统日志",
+    "URL": "",
+    "ICON": "el-icon-time",
+    "POWER": true,
+    "VALUE": [
+      {
+        "FP": "MS0001",
+        "TEXT": "错误日志",
+        "URL": "/errlog",
+        "SHOW": true,
+        "INDEX": "1"
+      },
+      {
+        "FP": "MS0002",
+        "TEXT": "普通日志",
+        "URL": "/oklog",
+        "SHOW": true,
+        "INDEX": "2"
+      }
+    ]
+  }
+]
+

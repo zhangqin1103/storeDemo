@@ -1,0 +1,25 @@
+server:
+  port: 7891
+spring:
+  application:
+    name: zq-zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7890/eureka
+    # eureka客户端从eureka服务器注册表中获取服务注册信息的时间间隔（s），默认为30秒,开发阶段调小
+    registry-fetch-interval-seconds: 10
+zuul:
+  retryable: true #是否重试
+  ignored-services: "*"  #* 填写‘*’ 表示不代理其它所有的服务，只代理配置的微服务
+  sensitive-headers: "*"
+  routes:
+    zq-user-service: /user/**
+    zq-product-service: /pro/**
+#    test:   //为微服务添加别名test
+#      path: /test/**
+#      serviceId: zq-user-service   #也可以填写#url:http://localhost:7892 与serviceId相同意思，填写微服务地址端口链接
+#网关分发请求超时时间配置  #分发出去的请求超过10秒未响应触发报异常 默认1秒
+ribbon:
+  ReadTimeout: 10000
+  SocketTimeout: 10000

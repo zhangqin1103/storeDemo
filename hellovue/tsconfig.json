@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es5",  //指定ECMAScript 的版本
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "strictPropertyInitialization": false,
+    "baseUrl": ".",
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "es2015",
+      "dom",
+      "scripthost"
+    ]
+  },
+  "include": [  //包含的编译目录
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": [  //不包含的编译目录
+    "node_modules"
+  ],
+  "typesRoots":[
+    "./types", "./node_modules/vue/types"
+  ]
+}

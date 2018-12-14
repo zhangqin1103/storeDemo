@@ -1,0 +1,19 @@
+package com.zq.product.dao;
+
+import com.zq.product.entity.OrDer;
+
+public interface OrDerDao {
+    int deleteByPrimaryKey(String id);
+
+    int insert(OrDer record);
+
+    int insertSelective(OrDer record);
+
+    OrDer selectByPrimaryKey(String id);
+
+    int updateByPrimaryKeySelective(OrDer record);
+
+    int updateByPrimaryKey(OrDer record);
+
+    void addToOrder(OrDer orDer);
+}

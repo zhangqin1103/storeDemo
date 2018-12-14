@@ -1,0 +1,43 @@
+server:
+  port: 7893
+spring:
+  application:
+    name: zq-product-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://127.0.0.1:3306/storedemo?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&&useSSL=false
+    username: root
+    password: yesiwant
+#  rabbitmq:   #rabbitmq端口说明：5672-amqp，25672-clustering，61613-stomp，1883-mqtt
+#    username: guest
+#    password: guest
+#    addresses: 127.0.0.1:5672
+logging.level:
+  com.zq.product.dao: DEBUG
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7890/eureka
+    # eureka客户端从eureka服务器注册表中获取服务注册信息的时间间隔（s），默认为30秒,开发阶段调小
+    registry-fetch-interval-seconds: 30
+
+#mybatis 别名配置
+mybatis.type-aliases-package: com.zq.product.entity
+#开启断路器  必须开启之后才能实现断路功能 请求失败才会调用服务降级方法
+feign:
+  hystrix:
+    enabled: true
+#配置请求超时时间
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000  #请求超过6秒未响应触发
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # 断路器的超时时间,断路器的超时时间需要大于ribbon的超时时间，不然不会触发重试。
+            timeoutInMilliseconds: 7000        #请求超过7秒未响应触发
+

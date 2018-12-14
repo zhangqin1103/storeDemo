@@ -1,0 +1,10 @@
+[
+  { "field": "id", "title": "ID","minWidth": "120px","dataType":"String","hidden":true},
+  { "field": "proName", "title": "商品名称","minWidth": "120px","dataType":"String"},
+  { "field": "proType", "title": "商品类型","minWidth": "120px","dataType":"String"} ,
+  { "field": "proStock", "title": "库存", "minWidth": "100px","dataType":"Number","goptions":{"precision":0,"min":0.000,"max":99.999}},
+  { "field": "putAwayTime", "title": "上架时间","dataType":"Date","minWidth":"150px"},
+  { "field": "proStatus", "title": "状态","dataType":"Array", "minWidth": "120px","selectOptions":[{"text":"售卖中","value":"1001"},{"text":"已下架","value":"1002"}] },
+  { "field": "proTypeId", "title": "商品类型ID",  "minWidth": "100px","dataType":"String","hidden":true}
+]
+
