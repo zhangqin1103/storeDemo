@@ -171,6 +171,7 @@ export default {
       ],
       orderForm:{
         orderNo:'',
+        buyerId:'',
         buyerName:"",
         oderAmount:"",
         proDetail:"",
@@ -360,6 +361,7 @@ export default {
           this.orderForm.placeAddress =this.userInfo.address;
           this.orderForm.tradeStatus="待付款";
           this.orderForm.createTime =  this.$util.getLocalDate();
+          this.orderForm.buyerId = this.userInfo.id
           this.orderForm.buyerName = this.userInfo.realName;
           this.isOrder =true
           axios.post('/api/pro/addToOrder',
