@@ -4,8 +4,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
 import com.zq.product.dao.BuyCarDao;
+import com.zq.product.dao.OrDerDao;
 import com.zq.product.dao.ProDao;
 import com.zq.product.entity.BuyCar;
+import com.zq.product.entity.OrDer;
 import com.zq.product.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ public class ProServiceImpl implements ProService {
     private ProDao proDao;
     @Autowired
     private BuyCarDao buyCarDao;
+
+    @Autowired
+    private OrDerDao oDerDao;
 
     @Override
     public Page<Product> selectAllPro(int pageIndex, int pageSize) {
@@ -51,5 +56,14 @@ public class ProServiceImpl implements ProService {
         HashMap queryMap = gson.fromJson(proSpu, HashMap.class);
         queryMap.put("proId",proId);
         return proDao.getProPrice(queryMap);
+    }
+
+    /**
+     * 生成订单
+     * @param orDer
+     */
+    @Override
+    public void addToOrder(OrDer orDer) {
+        oDerDao.addToOrder(orDer);
     }
 }
