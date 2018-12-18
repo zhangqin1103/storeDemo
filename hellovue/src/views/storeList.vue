@@ -42,8 +42,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog  title="所有订单" :visible.sync="orderList" width="60%">
-      <el-button type="success" @click="pay">订单明细</el-button>
+    <el-dialog  :visible.sync="orderList" width="60%">
       <se-com-grid  ref="orderTable"
                     :tableTitle="`订单列表`"
                     :tableData="orderData"
@@ -159,14 +158,11 @@ export default {
         { "field": "id", "title": "ID","minWidth": "120px","dataType":"String","hidden":true},
         { "field": "orderNo", "title": "订单编号","minWidth": "120px","dataType":"String"},
         { "field": "buyerId", "title": "买家id", "minWidth": "100px","dataType":"String","hidden":true},
-        { "field": "buyerName", "title": "购买人", "minWidth": "100px","dataType":"String",},
         { "field": "tradeStatus", "title": "交易状态","dataType":"String","minWidth":"120px"},
         { "field": "oderAmount", "title": "订单金额","dataType":"Number", "minWidth": "120px" },
         { "field": 'operation', title: '操作', fixed: 'right',minWidth: '80px',
           buttons: [
-            { text: '订单详情',handle: function () {
-
-              }},
+            { text: '查看',type:'text',handle: this.orderDetail},
           ]}
       ],
       orderForm:{
@@ -190,10 +186,8 @@ export default {
         { "field": "status", "title": "状态","dataType":"Number", "minWidth": "120px" },
         { "field": 'operation', title: '操作', fixed: 'right',minWidth: '80px',
           buttons:[
-            { text: '去下单',handle: this.toOrder},
-            { text: '移除',handle: function () {
-
-              }},
+            { text: '确认下单',type:'text',handle: this.toOrder},
+            { text: '移除',type:'text',handle:this.delFormBuyCar},
           ]}],
 
       yfModel:[{ value: '鸭绒',label: '鸭绒'}, {value: '鹅绒',label: '鹅绒' }],
@@ -275,21 +269,29 @@ export default {
     },
     //购物车
     myBuyCar:function () {
-          axios.get('/api/pro/getBuyCars',
-            {
-              headers: {token: '99999'},
-              params: {userId:this.userInfo.id,pageIndex: 1, pageSize: 20},
-            }).then((res)=>{
-            if(res.data.meta.code === 1){
-              this.buyCarDatas =res.data.data;
-              this.isMyBuyCar =true
-            }
-          }).catch((error)=>{ })
+      axios.get('/api/pro/getBuyCars',
+        {
+          headers: {token: '99999'},
+          params: {userId:this.userInfo.id,pageIndex: 1, pageSize: 20},
+        }).then((res)=>{
+        if(res.data.meta.code === 1){
+          this.buyCarDatas =res.data.data;
+          this.isMyBuyCar =true
+        }
+      }).catch((error)=>{ })
     },
     //我的订单
     myOrder(){
-      // this.isOrder = true;
-      this.orderList =true
+      axios.get('/api/pro/getOrders',
+        {
+          headers: {token: '99999'},
+          params: {buyerId:this.userInfo.id,pageIndex: 1, pageSize: 20},
+        }).then((res)=>{
+        if(res.data.meta.code === 1){
+          this.orderData =res.data.data;
+          this.orderList =true
+        }
+      }).catch((error)=>{ })
     },
     //选中的行
     selectRow:function (rows) {
@@ -375,6 +377,36 @@ export default {
             .catch((error)=>{
 
             })
+        }
+      }).catch((error)=>{ })
+    },
+    delFormBuyCar(index,row){
+      this.$util.Confirm(this,{content:"确定要移除吗?",type:"warning"},(param)=>{
+        if(param){
+          axios.delete('/api/pro/delFormBuyCar/'+row.id,
+            {headers: {token: '99999'}}).then((res)=>{
+            if(res.data.meta.code === 1){
+              this.myBuyCar();
+              this.$util.Msg(this,{message:'已成功从购物车移除',type:'success',time:2500})
+            }
+          }).catch((error)=>{ })
+        }
+      })
+    },
+    /**
+     * 单个订单明细
+     * @param index
+     * @param row
+     */
+    orderDetail(index,row){
+      axios.get('/api/pro/getOrderDetail/'+row.id,
+        {headers: {token: '99999'}}
+      ).then((res)=>{
+        if(res.data.meta.code === 1){
+          debugger
+          this.orderForm =res.data.data;
+          this.orderForm.buyerName = this.userInfo.realName
+          this.isOrder = true;
         }
       }).catch((error)=>{ })
     }
