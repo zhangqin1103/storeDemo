@@ -1,5 +1,6 @@
 package com.zq.product.dao;
 
+import com.github.pagehelper.Page;
 import com.zq.product.entity.OrDer;
 
 public interface OrDerDao {
@@ -16,4 +17,6 @@ public interface OrDerDao {
     int updateByPrimaryKey(OrDer record);
 
     void addToOrder(OrDer orDer);
+
+    Page<OrDer> getAllOrders(String buyerId);
 }

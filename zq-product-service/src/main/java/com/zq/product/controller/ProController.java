@@ -21,6 +21,12 @@ public class ProController {
     @Autowired
     private UserFeignService userFeignService;
 
+    /**
+     * 商品列表
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     @RequestMapping(value = "/getAllPro",method = RequestMethod.GET)
     public Response getAllPros(@RequestParam int pageIndex,@RequestParam int pageSize){
         try {
@@ -32,6 +38,11 @@ public class ProController {
         }
     }
 
+    /**
+     * 加入购物车
+     * @param buyCar
+     * @return
+     */
     @RequestMapping(value = "/addToBuyCar",method = RequestMethod.POST)
     public Response addToBuyCar(@RequestBody BuyCar buyCar){
         try {
@@ -45,6 +56,13 @@ public class ProController {
         }
     }
 
+    /**
+     * 购物车数据
+     * @param userId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     @RequestMapping(value = "/getBuyCars",method = RequestMethod.GET)
     public Response getBuyCars(@RequestParam String userId,@RequestParam int pageIndex,@RequestParam int pageSize ){
         try {
@@ -71,6 +89,7 @@ public class ProController {
             return new Response().failure(e.getMessage());
         }
     }
+    //根据条件获取商品单价
     @RequestMapping(value = "/getProPrice",method = RequestMethod.GET)
     public Response getProPrice(@RequestParam Map<String,String> map){
         try {
@@ -83,15 +102,53 @@ public class ProController {
             return new Response().failure(e.getMessage());
         }
     }
+    //添加至订单
     @RequestMapping(value = "/addToOrder",method = RequestMethod.POST)
     public Response addToOrder(@RequestBody OrDer orDer){
         try {
             proService.addToOrder(orDer);
-            return new Response().success();
+            return new Response().success("添加成功");
         }catch (Exception e){
             e.printStackTrace();
             return new Response().failure(e.getMessage());
         }
     }
+
+    /**
+     * 删除购物车数据
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delFormBuyCar/{id}",method = RequestMethod.DELETE)
+    public Response delFormBuyCar(@PathVariable("id") String id){
+        try {
+            proService.delFormBuyCar(id);
+            return new Response().success("删除成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Response().failure(e.getMessage());
+        }
+    }
+    @RequestMapping(value = "/getOrders",method = RequestMethod.GET)
+    public Response getOrders(@RequestParam String buyerId,@RequestParam  int pageIndex,@RequestParam int pageSize){
+        try {
+            return new Response().success(proService.getOrdersByUser(buyerId,pageIndex,pageSize));
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Response().failure(e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/getOrderDetail/{id}",method = RequestMethod.GET)
+    public Response getOrderDetail(@PathVariable("id") String id){
+        try {
+            return new Response().success(proService.getOrderDetail(id));
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Response().failure(e.getMessage());
+        }
+    }
+
+
 
 }

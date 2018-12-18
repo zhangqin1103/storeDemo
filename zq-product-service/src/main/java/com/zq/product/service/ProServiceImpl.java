@@ -66,4 +66,20 @@ public class ProServiceImpl implements ProService {
     public void addToOrder(OrDer orDer) {
         oDerDao.addToOrder(orDer);
     }
+
+    @Override
+    public void delFormBuyCar(String id) {
+       buyCarDao.delFormBuyCar(id);
+    }
+
+    @Override
+    public Page<OrDer> getOrdersByUser(String buyerId,int pageIndex, int pageSize) {
+        PageHelper.startPage(pageIndex,pageSize);
+        return oDerDao.getAllOrders(buyerId);
+    }
+
+    @Override
+    public OrDer getOrderDetail(String id) {
+        return oDerDao.selectByPrimaryKey(id);
+    }
 }

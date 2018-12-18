@@ -128,4 +128,8 @@
     from s_buycar
     where userId = #{userId,jdbcType=CHAR}
   </select>
+
+  <delete id="delFormBuyCar" parameterType="String" >
+    delete from s_buycar where id=#{id}
+  </delete>
 </mapper>

@@ -1,6 +1,8 @@
 package com.zq.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jdk.nashorn.internal.objects.annotations.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,16 +25,20 @@ public class OrDer implements Serializable {
      * 买家id
      */
     private String buyerId;
+    /**
+     * 商品明细
+     */
+    private String proDetail;
 
     /**
      * 交易状态
      */
-    private Byte tradeStatus;
+    private String tradeStatus;
 
     /**
      * 支付状态
      */
-    private Byte payStatus;
+    private String payStatus;
 
     /**
      * 订单金额
@@ -42,6 +48,8 @@ public class OrDer implements Serializable {
     /**
      * 创建时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
@@ -75,19 +83,19 @@ public class OrDer implements Serializable {
         this.buyerId = buyerId;
     }
 
-    public Byte getTradeStatus() {
+    public String getTradeStatus() {
         return tradeStatus;
     }
 
-    public void setTradeStatus(Byte tradeStatus) {
+    public void setTradeStatus(String tradeStatus) {
         this.tradeStatus = tradeStatus;
     }
 
-    public Byte getPayStatus() {
+    public String getPayStatus() {
         return payStatus;
     }
 
-    public void setPayStatus(Byte payStatus) {
+    public void setPayStatus(String payStatus) {
         this.payStatus = payStatus;
     }
 
@@ -113,6 +121,14 @@ public class OrDer implements Serializable {
 
     public void setPlaceAddress(String placeAddress) {
         this.placeAddress = placeAddress;
+    }
+
+    public String getProDetail() {
+        return proDetail;
+    }
+
+    public void setProDetail(String proDetail) {
+        this.proDetail = proDetail;
     }
 
     @Override

@@ -16,4 +16,6 @@ public interface BuyCarDao {
     int updateByPrimaryKeySelective(BuyCar record);
 
     int updateByPrimaryKey(BuyCar record);
+
+    void delFormBuyCar(String id);
 }

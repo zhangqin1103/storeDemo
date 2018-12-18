@@ -5,14 +5,15 @@
     <id column="id" jdbcType="CHAR" property="id" />
     <result column="orderNo" jdbcType="CHAR" property="orderNo" />
     <result column="buyerId" jdbcType="CHAR" property="buyerId" />
-    <result column="tradeStatus" jdbcType="TINYINT" property="tradeStatus" />
-    <result column="payStatus" jdbcType="TINYINT" property="payStatus" />
+    <result column="proDetail" jdbcType="VARCHAR" property="proDetail" />
+    <result column="tradeStatus" jdbcType="CHAR" property="tradeStatus" />
+    <result column="payStatus" jdbcType="CHAR" property="payStatus" />
     <result column="oderAmount" jdbcType="DECIMAL" property="oderAmount" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="placeAddress" jdbcType="VARCHAR" property="placeAddress" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, orderNo, buyerId, tradeStatus, payStatus, oderAmount, createTime, placeAddress
+    id, orderNo, buyerId,proDetail, tradeStatus, payStatus, oderAmount, createTime, placeAddress
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -31,8 +32,8 @@
     insert into s_order (orderNo, buyerId, tradeStatus,
     payStatus, oderAmount, createTime,
     placeAddress)
-    values (#{orderNo,jdbcType=CHAR}, #{buyerId,jdbcType=CHAR}, #{tradeStatus,jdbcType=TINYINT},
-    #{payStatus,jdbcType=TINYINT}, #{oderAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+    values (#{orderNo,jdbcType=CHAR}, #{buyerId,jdbcType=CHAR}, #{tradeStatus,jdbcType=CHAR},
+    #{payStatus,jdbcType=CHAR}, #{oderAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
     #{placeAddress,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zq.product.entity.OrDer">
@@ -71,10 +72,10 @@
         #{buyerId,jdbcType=CHAR},
       </if>
       <if test="tradeStatus != null">
-        #{tradeStatus,jdbcType=TINYINT},
+        #{tradeStatus,jdbcType=CHAR},
       </if>
       <if test="payStatus != null">
-        #{payStatus,jdbcType=TINYINT},
+        #{payStatus,jdbcType=CHAR},
       </if>
       <if test="oderAmount != null">
         #{oderAmount,jdbcType=DECIMAL},
@@ -97,10 +98,10 @@
         buyerId = #{buyerId,jdbcType=CHAR},
       </if>
       <if test="tradeStatus != null">
-        tradeStatus = #{tradeStatus,jdbcType=TINYINT},
+        tradeStatus = #{tradeStatus,jdbcType=CHAR},
       </if>
       <if test="payStatus != null">
-        payStatus = #{payStatus,jdbcType=TINYINT},
+        payStatus = #{payStatus,jdbcType=CHAR},
       </if>
       <if test="oderAmount != null">
         oderAmount = #{oderAmount,jdbcType=DECIMAL},
@@ -118,21 +119,27 @@
     update s_order
     set orderNo = #{orderNo,jdbcType=CHAR},
       buyerId = #{buyerId,jdbcType=CHAR},
-      tradeStatus = #{tradeStatus,jdbcType=TINYINT},
-      payStatus = #{payStatus,jdbcType=TINYINT},
+      tradeStatus = #{tradeStatus,jdbcType=CHAR},
+      payStatus = #{payStatus,jdbcType=CHAR},
       oderAmount = #{oderAmount,jdbcType=DECIMAL},
       createTime = #{createTime,jdbcType=TIMESTAMP},
       placeAddress = #{placeAddress,jdbcType=VARCHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
-  <insert id="addToOrder" parameterType="com.zq.product.entity.OrDer">
+
+  <insert id="addToOrder" parameterType="OrDer">
      insert into
-     s_order (id,orderNo, buyerId, tradeStatus,
+     s_order (id,orderNo,proDetail, buyerId, tradeStatus,
       payStatus, oderAmount, createTime,
       placeAddress)
-    values (uuid(),#{orderNo,jdbcType=CHAR}, #{buyerId,jdbcType=CHAR}, #{tradeStatus,jdbcType=TINYINT},
-      #{payStatus,jdbcType=TINYINT}, #{oderAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+    values (uuid(),#{orderNo,jdbcType=CHAR},#{proDetail}, #{buyerId,jdbcType=CHAR}, #{tradeStatus,jdbcType=CHAR},
+      #{payStatus,jdbcType=CHAR}, #{oderAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
       #{placeAddress,jdbcType=VARCHAR})
   </insert>
+
+  <select id="getAllOrders" parameterType="String" resultMap="BaseResultMap">
+    select * from s_order where buyerId =#{buyerId}
+  </select>
+
 
 </mapper>
