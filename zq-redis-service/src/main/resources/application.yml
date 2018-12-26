@@ -1,0 +1,26 @@
+server:
+  port: 7899
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7890/eureka
+      # eureka客户端从eureka服务器注册表中获取服务注册信息的时间间隔（s），默认为30秒,开发阶段调小
+    registry-fetch-interval-seconds: 10
+spring:
+  application:
+    name: cloud-tigongz
+  redis:
+    database: 3
+    host: 127.0.0.1
+    port: 6379
+    timeout: 10s
+    jedis:
+      pool:
+       # 最大空闲连接数
+        max-idle: 100
+       # 最小空闲连接数
+        min-idle: 10
+       # 等待可用连接的最大时间，负数为不限制
+        max-wait:  -1s
+       # 最大活跃连接数，负数为不限制
+        max-active: -1
