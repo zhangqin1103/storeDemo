@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
  * feign服务降低类
  */
 @Component
-public class fallBackClass implements UserFeignService  {
+public class UserInfoFallBack implements UserFeignService  {
 
 
     @Override

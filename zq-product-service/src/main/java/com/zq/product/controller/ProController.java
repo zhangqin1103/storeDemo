@@ -1,8 +1,6 @@
 package com.zq.product.controller;
 
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
-import com.google.gson.Gson;
 import com.zq.product.entity.BuyCar;
 import com.zq.product.entity.OrDer;
 import com.zq.product.entity.Product;
@@ -149,6 +147,17 @@ public class ProController {
         }
     }
 
+
+    @RequestMapping(value = "/delOrder/{id}",method = RequestMethod.DELETE)
+    public Response delOrder(@PathVariable("id") String id){
+        try {
+            proService.delOrder(id);
+            return new Response().success("删除成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Response().failure(e.getMessage());
+        }
+    }
 
 
 }

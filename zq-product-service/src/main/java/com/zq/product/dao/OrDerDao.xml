@@ -6,6 +6,7 @@
     <result column="orderNo" jdbcType="CHAR" property="orderNo" />
     <result column="buyerId" jdbcType="CHAR" property="buyerId" />
     <result column="proDetail" jdbcType="VARCHAR" property="proDetail" />
+    <result column="proId" jdbcType="CHAR" property="proId" />
     <result column="tradeStatus" jdbcType="CHAR" property="tradeStatus" />
     <result column="payStatus" jdbcType="CHAR" property="payStatus" />
     <result column="oderAmount" jdbcType="DECIMAL" property="oderAmount" />
@@ -13,7 +14,7 @@
     <result column="placeAddress" jdbcType="VARCHAR" property="placeAddress" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, orderNo, buyerId,proDetail, tradeStatus, payStatus, oderAmount, createTime, placeAddress
+    id, orderNo, buyerId,proDetail,proId, tradeStatus, payStatus, oderAmount, createTime, placeAddress
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -129,10 +130,10 @@
 
   <insert id="addToOrder" parameterType="OrDer">
      insert into
-     s_order (id,orderNo,proDetail, buyerId, tradeStatus,
+     s_order (id,orderNo,proDetail,proId, buyerId, tradeStatus,
       payStatus, oderAmount, createTime,
       placeAddress)
-    values (uuid(),#{orderNo,jdbcType=CHAR},#{proDetail}, #{buyerId,jdbcType=CHAR}, #{tradeStatus,jdbcType=CHAR},
+    values (uuid(),#{orderNo,jdbcType=CHAR},#{proDetail},#{proId}, #{buyerId,jdbcType=CHAR}, #{tradeStatus,jdbcType=CHAR},
       #{payStatus,jdbcType=CHAR}, #{oderAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
       #{placeAddress,jdbcType=VARCHAR})
   </insert>

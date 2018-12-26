@@ -17,6 +17,8 @@ public interface ProService {
 
     void addToOrder(OrDer orDer);
 
+    void delOrder(String id);
+
     void delFormBuyCar(String  id);
 
     Page<OrDer> getOrdersByUser (String buyerId,int pageIndex, int pageSize);

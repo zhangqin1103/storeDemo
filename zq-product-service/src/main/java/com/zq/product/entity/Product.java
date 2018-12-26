@@ -35,8 +35,8 @@ public class Product implements Serializable {
     /**
      * 上架时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss") //返回参数时
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  //传入参数时
+   // @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss") //返回参数时
+    // @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")  //传入参数时
     private Date putAwayTime;
 
     /**

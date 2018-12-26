@@ -25,6 +25,9 @@ public class ProServiceImpl implements ProService {
     @Autowired
     private OrDerDao oDerDao;
 
+   /* @Autowired
+    private CacheService cacheService;*/
+
     @Override
     public Page<Product> selectAllPro(int pageIndex, int pageSize) {
         PageHelper.startPage(pageIndex,pageSize);
@@ -64,6 +67,8 @@ public class ProServiceImpl implements ProService {
      */
     @Override
     public void addToOrder(OrDer orDer) {
+
+       // cacheService.setCache();
         oDerDao.addToOrder(orDer);
     }
 
@@ -81,5 +86,10 @@ public class ProServiceImpl implements ProService {
     @Override
     public OrDer getOrderDetail(String id) {
         return oDerDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public void delOrder(String id) {
+        oDerDao.deleteByPrimaryKey(id);
     }
 }

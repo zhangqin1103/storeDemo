@@ -45,11 +45,12 @@ public class OrDer implements Serializable {
      */
     private Long oderAmount;
 
+    private String proId;
     /**
      * 创建时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    // @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
@@ -131,59 +132,27 @@ public class OrDer implements Serializable {
         this.proDetail = proDetail;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        OrDer other = (OrDer) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getOrderNo() == null ? other.getOrderNo() == null : this.getOrderNo().equals(other.getOrderNo()))
-            && (this.getBuyerId() == null ? other.getBuyerId() == null : this.getBuyerId().equals(other.getBuyerId()))
-            && (this.getTradeStatus() == null ? other.getTradeStatus() == null : this.getTradeStatus().equals(other.getTradeStatus()))
-            && (this.getPayStatus() == null ? other.getPayStatus() == null : this.getPayStatus().equals(other.getPayStatus()))
-            && (this.getOderAmount() == null ? other.getOderAmount() == null : this.getOderAmount().equals(other.getOderAmount()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getPlaceAddress() == null ? other.getPlaceAddress() == null : this.getPlaceAddress().equals(other.getPlaceAddress()));
+    public String getProId() {
+        return proId;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getOrderNo() == null) ? 0 : getOrderNo().hashCode());
-        result = prime * result + ((getBuyerId() == null) ? 0 : getBuyerId().hashCode());
-        result = prime * result + ((getTradeStatus() == null) ? 0 : getTradeStatus().hashCode());
-        result = prime * result + ((getPayStatus() == null) ? 0 : getPayStatus().hashCode());
-        result = prime * result + ((getOderAmount() == null) ? 0 : getOderAmount().hashCode());
-        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getPlaceAddress() == null) ? 0 : getPlaceAddress().hashCode());
-        return result;
+    public void setProId(String proId) {
+        this.proId = proId;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", orderNo=").append(orderNo);
-        sb.append(", buyerId=").append(buyerId);
-        sb.append(", tradeStatus=").append(tradeStatus);
-        sb.append(", payStatus=").append(payStatus);
-        sb.append(", oderAmount=").append(oderAmount);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", placeAddress=").append(placeAddress);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "OrDer{" +
+                "id='" + id + '\'' +
+                ", orderNo='" + orderNo + '\'' +
+                ", buyerId='" + buyerId + '\'' +
+                ", proDetail='" + proDetail + '\'' +
+                ", tradeStatus='" + tradeStatus + '\'' +
+                ", payStatus='" + payStatus + '\'' +
+                ", oderAmount=" + oderAmount +
+                ", proId='" + proId + '\'' +
+                ", createTime=" + createTime +
+                ", placeAddress='" + placeAddress + '\'' +
+                '}';
     }
 }

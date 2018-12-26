@@ -9,10 +9,14 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/storedemo?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&&useSSL=false
     username: root
     password: yesiwant
+  #实体 date 属性格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 #  rabbitmq:   #rabbitmq端口说明：5672-amqp，25672-clustering，61613-stomp，1883-mqtt
 #    username: guest
 #    password: guest
 #    addresses: 127.0.0.1:5672
+# DAO层sql日志
 logging.level:
   com.zq.product.dao: DEBUG
 eureka:
@@ -20,7 +24,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:7890/eureka
     # eureka客户端从eureka服务器注册表中获取服务注册信息的时间间隔（s），默认为30秒,开发阶段调小
-    registry-fetch-interval-seconds: 30
+    registry-fetch-interval-seconds: 10
 
 #mybatis 别名配置
 mybatis.type-aliases-package: com.zq.product.entity
@@ -30,8 +34,8 @@ feign:
     enabled: true
 #配置请求超时时间
 ribbon:
-  ReadTimeout: 6000
-  ConnectTimeout: 6000  #请求超过6秒未响应触发
+  ReadTimeout: 6000ms
+  ConnectTimeout: 6000ms  #请求超过6秒未响应触发
 hystrix:
   command:
     default:
@@ -39,5 +43,5 @@ hystrix:
         isolation:
           thread:
             # 断路器的超时时间,断路器的超时时间需要大于ribbon的超时时间，不然不会触发重试。
-            timeoutInMilliseconds: 7000        #请求超过7秒未响应触发
+            timeoutInMilliseconds: 7000ms       #请求超过7秒未响应触发
 

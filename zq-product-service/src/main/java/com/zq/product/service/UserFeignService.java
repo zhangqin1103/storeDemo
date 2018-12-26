@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * 使用feignclient 调用user服务
  */
-@FeignClient(value = "zq-user-service",fallback = fallBackClass.class )
+@FeignClient(value = "zq-user-service",fallback = UserInfoFallBack.class )
 public interface UserFeignService {
 
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.GET)
