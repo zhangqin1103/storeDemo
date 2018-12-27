@@ -1,11 +1,16 @@
 package com.zq.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 @Service
 public class CacheService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CacheService.class);
+
 
     @Autowired
     private JedisPool jedisPool;
@@ -17,13 +22,14 @@ public class CacheService {
      * @return
      */
 
-    public String set(String key, String value){
+    public void set(String key, String value){
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            return jedis.set(key, value);
-        } finally {
-            jedisPool.returnResource(jedis);
+            jedis.set(key, value);
+            LOGGER.info("缓存设置成功"+key +"=>" +value);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -36,9 +42,12 @@ public class CacheService {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            return jedis.get(key);
-        } finally {
-            jedisPool.returnResource(jedis);
+            String value = jedis.get(key);
+            LOGGER.info("缓存获取成功"+key +"=>" +value);
+            return value;
+        } catch (Exception e){
+            e.printStackTrace();
+            return "";
         }
     }
 
@@ -49,13 +58,14 @@ public class CacheService {
      * @param value
      * @return
      */
-    public String setex(String key, int seconds,String value){
+    public void setex(String key, int seconds,String value){
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            return jedis.setex(key,seconds,value);
-        } finally {
-            jedisPool.returnResource(jedis);
+            jedis.setex(key,seconds,value);
+            LOGGER.info("缓存设置成功"+key +"=>" +value);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -78,8 +88,6 @@ public class CacheService {
             i = jedis.incrBy(key, increament);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            jedisPool.returnResource(jedis);
         }
         return i;
     }
