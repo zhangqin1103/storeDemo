@@ -16,6 +16,7 @@ zuul:
   routes:
     zq-user-service: /user/**
     zq-product-service: /pro/**
+    zq-redis-service: /cache/**
 #    test:   //为微服务添加别名test
 #      path: /test/**
 #      serviceId: zq-user-service   #也可以填写#url:http://localhost:7892 与serviceId相同意思，填写微服务地址端口链接
