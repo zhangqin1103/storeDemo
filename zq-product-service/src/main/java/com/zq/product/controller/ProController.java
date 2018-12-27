@@ -4,9 +4,12 @@ import com.github.pagehelper.Page;
 import com.zq.product.entity.BuyCar;
 import com.zq.product.entity.OrDer;
 import com.zq.product.entity.Product;
+import com.zq.product.service.CacheServices;
 import com.zq.product.service.ProService;
 import com.zq.product.service.UserFeignService;
 import com.zq.product.utils.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +17,16 @@ import java.util.Map;
 
 @RestController
 public class ProController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProController.class);
+
     @Autowired
     private ProService proService;
     @Autowired
     private UserFeignService userFeignService;
+
+    @Autowired
+    private CacheServices cacheServices;
 
     /**
      * 商品列表
@@ -87,11 +96,12 @@ public class ProController {
             return new Response().failure(e.getMessage());
         }
     }
-    //根据条件获取商品单价
+    //根据条件获取商品单价和库存
     @RequestMapping(value = "/getProPrice",method = RequestMethod.GET)
     public Response getProPrice(@RequestParam Map<String,String> map){
         try {
             String proId = map.get("proId");
+            cacheServices.setCache("proId",proId);
             String proSpu = map.get("proSpu");
             String price =  proService.getProPrice(proId,proSpu);
             return new Response().success(price);

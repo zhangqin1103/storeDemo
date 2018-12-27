@@ -4,7 +4,7 @@ import com.zq.product.utils.Response;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CacheFallBack implements CacheService {
+public class CacheFallBack implements CacheServices {
 
 
     @Override

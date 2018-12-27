@@ -34,8 +34,8 @@ feign:
     enabled: true
 #配置请求超时时间
 ribbon:
-  ReadTimeout: 6000ms
-  ConnectTimeout: 6000ms  #请求超过6秒未响应触发
+  ReadTimeout: 6000
+  ConnectTimeout: 6000  #请求超过6秒未响应触发
 hystrix:
   command:
     default:
@@ -43,5 +43,5 @@ hystrix:
         isolation:
           thread:
             # 断路器的超时时间,断路器的超时时间需要大于ribbon的超时时间，不然不会触发重试。
-            timeoutInMilliseconds: 7000ms       #请求超过7秒未响应触发
+            timeoutInMilliseconds: 7000       #请求超过7秒未响应触发
 
