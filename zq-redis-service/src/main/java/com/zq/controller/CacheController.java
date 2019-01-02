@@ -26,4 +26,10 @@ public class CacheController {
     public String get(String key){
        return cacheService.get(key);
     }
+
+    @RequestMapping(value = "/decrBykey",method = RequestMethod.GET)
+    public Long decrBykey(String key,Long increament){
+        return cacheService.decrBy(key,increament);
+    }
+
 }

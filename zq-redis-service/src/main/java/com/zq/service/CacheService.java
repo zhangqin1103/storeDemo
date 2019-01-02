@@ -30,6 +30,8 @@ public class CacheService {
             LOGGER.info("缓存设置成功"+key +"=>" +value);
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            jedis.close();
         }
     }
 
@@ -48,6 +50,8 @@ public class CacheService {
         } catch (Exception e){
             e.printStackTrace();
             return "";
+        }finally {
+            jedis.close();
         }
     }
 
@@ -63,9 +67,12 @@ public class CacheService {
         try {
             jedis = jedisPool.getResource();
             jedis.setex(key,seconds,value);
+            jedis.close();
             LOGGER.info("缓存设置成功"+key +"=>" +value);
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            jedis.close();
         }
     }
 
@@ -88,6 +95,29 @@ public class CacheService {
             i = jedis.incrBy(key, increament);
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            jedis.close();
+        }
+        return i;
+    }
+
+    /**
+     * 扣减预库存
+     * @param key
+     * @param increament
+     * @return
+     */
+    public Long decrBy(String key,long increament){
+        Long i = null;
+        Jedis jedis = null;
+        try {
+            jedis =jedisPool.getResource();
+            i = jedis.decrBy(key, increament);
+            LOGGER.info("库存预占成功"+key +"=>" +increament);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            jedis.close();
         }
         return i;
     }
