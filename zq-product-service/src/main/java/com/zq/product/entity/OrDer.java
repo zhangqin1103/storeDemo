@@ -46,6 +46,10 @@ public class OrDer implements Serializable {
     private Long oderAmount;
 
     private String proId;
+
+    private String buyCarId;
+
+    private String spuId;
     /**
      * 创建时间
      */
@@ -132,12 +136,28 @@ public class OrDer implements Serializable {
         this.proDetail = proDetail;
     }
 
+    public String getBuyCarId() {
+        return buyCarId;
+    }
+
+    public void setBuyCarId(String buyCarId) {
+        this.buyCarId = buyCarId;
+    }
+
     public String getProId() {
         return proId;
     }
 
     public void setProId(String proId) {
         this.proId = proId;
+    }
+
+    public String getSpuId() {
+        return spuId;
+    }
+
+    public void setSpuId(String spuId) {
+        this.spuId = spuId;
     }
 
     @Override
@@ -151,6 +171,8 @@ public class OrDer implements Serializable {
                 ", payStatus='" + payStatus + '\'' +
                 ", oderAmount=" + oderAmount +
                 ", proId='" + proId + '\'' +
+                ", buyCarId='" + buyCarId + '\'' +
+                ", spuId='" + spuId + '\'' +
                 ", createTime=" + createTime +
                 ", placeAddress='" + placeAddress + '\'' +
                 '}';

@@ -25,6 +25,9 @@ public class ProServiceImpl implements ProService {
     @Autowired
     private OrDerDao oDerDao;
 
+    @Autowired
+    private CacheServices cacheServices;
+
 
     @Override
     public Page<Product> selectAllPro(int pageIndex, int pageSize) {
@@ -52,9 +55,16 @@ public class ProServiceImpl implements ProService {
      * @return
      */
     @Override
-    public String getProPrice(String proId, String proSpu) {
+    public Map<String,Object> getProPrice(String proId, String proSpu) {
         Gson gson = new Gson();
-        HashMap queryMap = gson.fromJson(proSpu, HashMap.class);
+        String spu = "{" + proSpu + "}";
+        HashMap queryMap = gson.fromJson(spu, HashMap.class);
+        String size = queryMap.get("尺寸").toString();
+        String model = queryMap.get("型号").toString();
+        String color = queryMap.get("颜色").toString();
+        queryMap.put("size",size);
+        queryMap.put("model",model);
+        queryMap.put("color",color);
         queryMap.put("proId",proId);
         return proDao.getProPrice(queryMap);
     }
@@ -88,5 +98,23 @@ public class ProServiceImpl implements ProService {
     @Override
     public void delOrder(String id) {
         oDerDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void orderPay(String orderNo) {
+        OrDer order = proDao.queryOrderByNo("select * from s_order where orderNo = '"+orderNo+"'");
+        String orderDetail = "{" + order.getProDetail() +"}";
+        HashMap detailMap = new Gson().fromJson(orderDetail,HashMap.class);
+        Double d = Double.parseDouble(detailMap.get("购买数量").toString());
+        Long buyNum = Math.round(d);
+        String singleStock = cacheServices.getCache(order.getSpuId());
+        Map<String,Object> updMap = new HashMap<>();
+        updMap.put("proId",order.getProId());
+        updMap.put("spuId",order.getSpuId());
+        updMap.put("cacheStock",singleStock);
+        updMap.put("buyNum",buyNum);
+        proDao.updStock(updMap);
+        proDao.updSingleStock(updMap);
+        oDerDao.updPayStatu(orderNo);
     }
 }

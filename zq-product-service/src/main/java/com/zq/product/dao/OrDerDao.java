@@ -14,7 +14,7 @@ public interface OrDerDao {
 
     int updateByPrimaryKeySelective(OrDer record);
 
-    int updateByPrimaryKey(OrDer record);
+    int updPayStatu(String orderNo);
 
     void addToOrder(OrDer orDer);
 

@@ -7,6 +7,7 @@
     <result column="buyerId" jdbcType="CHAR" property="buyerId" />
     <result column="proDetail" jdbcType="VARCHAR" property="proDetail" />
     <result column="proId" jdbcType="CHAR" property="proId" />
+    <result column="spuId" jdbcType="CHAR" property="spuId" />
     <result column="tradeStatus" jdbcType="CHAR" property="tradeStatus" />
     <result column="payStatus" jdbcType="CHAR" property="payStatus" />
     <result column="oderAmount" jdbcType="DECIMAL" property="oderAmount" />
@@ -14,7 +15,7 @@
     <result column="placeAddress" jdbcType="VARCHAR" property="placeAddress" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, orderNo, buyerId,proDetail,proId, tradeStatus, payStatus, oderAmount, createTime, placeAddress
+    id, orderNo, buyerId,proDetail,proId,spuId, tradeStatus, payStatus, oderAmount, createTime, placeAddress
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -130,10 +131,10 @@
 
   <insert id="addToOrder" parameterType="OrDer">
      insert into
-     s_order (id,orderNo,proDetail,proId, buyerId, tradeStatus,
+     s_order (id,orderNo,proDetail,proId,spuId, buyerId, tradeStatus,
       payStatus, oderAmount, createTime,
       placeAddress)
-    values (uuid(),#{orderNo,jdbcType=CHAR},#{proDetail},#{proId}, #{buyerId,jdbcType=CHAR}, #{tradeStatus,jdbcType=CHAR},
+    values (uuid(),#{orderNo,jdbcType=CHAR},#{proDetail},#{proId},#{spuId}, #{buyerId,jdbcType=CHAR}, #{tradeStatus,jdbcType=CHAR},
       #{payStatus,jdbcType=CHAR}, #{oderAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
       #{placeAddress,jdbcType=VARCHAR})
   </insert>
@@ -141,6 +142,10 @@
   <select id="getAllOrders" parameterType="String" resultMap="BaseResultMap">
     select * from s_order where buyerId =#{buyerId}
   </select>
+
+  <update id="updPayStatu" parameterType="String">
+    update s_order set tradeStatus = '待发货',payStatus = '已付款' where orderNo = #{orderNo}
+  </update>
 
 
 </mapper>

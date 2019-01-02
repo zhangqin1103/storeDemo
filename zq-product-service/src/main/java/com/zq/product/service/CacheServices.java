@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CacheServices  {
 
     @RequestMapping(value = "/cache/set",method = RequestMethod.GET)
-    public Response setCache(@RequestParam("key") String key,@RequestParam("value") String value);
+    public String setCache(@RequestParam("key") String key,@RequestParam("value") String value);
 
     @RequestMapping(value = "/cache/setex",method = RequestMethod.GET)
-    public Response setexCache(@RequestParam("key") String key,@RequestParam("seconds") int seconds,@RequestParam("value") String value);
+    public String setexCache(@RequestParam("key") String key,@RequestParam("seconds") int seconds,@RequestParam("value") String value);
 
     @RequestMapping(value = "/cache/get",method = RequestMethod.GET)
-    public Response getCache(@RequestParam("key") String key);
+    public String getCache(@RequestParam("key") String key);
+
+    @RequestMapping(value = "/cache/decrBykey",method = RequestMethod.GET)
+    public Long decrBykey(@RequestParam("key") String key,@RequestParam("increament") Long increament);
 }

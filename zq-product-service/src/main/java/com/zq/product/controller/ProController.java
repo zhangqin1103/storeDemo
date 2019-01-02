@@ -1,6 +1,7 @@
 package com.zq.product.controller;
 
 import com.github.pagehelper.Page;
+import com.google.gson.Gson;
 import com.zq.product.entity.BuyCar;
 import com.zq.product.entity.OrDer;
 import com.zq.product.entity.Product;
@@ -11,8 +12,10 @@ import com.zq.product.utils.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -53,8 +56,9 @@ public class ProController {
     @RequestMapping(value = "/addToBuyCar",method = RequestMethod.POST)
     public Response addToBuyCar(@RequestBody BuyCar buyCar){
         try {
-            System.out.println(buyCar.getProductId());
-
+            String spu = buyCar.getProSpu();
+            spu = spu.replace("{"," ").replace("}"," ");
+            buyCar.setProSpu(spu);
             proService.addToBuyCar(buyCar);
             return new Response().success("加入购物车成功");
         }catch (Exception e){
@@ -101,10 +105,18 @@ public class ProController {
     public Response getProPrice(@RequestParam Map<String,String> map){
         try {
             String proId = map.get("proId");
-            cacheServices.setCache("proId",proId);
             String proSpu = map.get("proSpu");
-            String price =  proService.getProPrice(proId,proSpu);
-            return new Response().success(price);
+            Map<String,Object> resMap =  proService.getProPrice(proId,proSpu);
+            // 下单时将商品库存放入redis 缓存 key 值为商品属性id
+            String stock = resMap.get("singleStock").toString();
+            String spuId = resMap.get("id").toString();
+            Long _stock = Long.valueOf(stock);
+            if(_stock >= 1){
+                cacheServices.setCache(spuId,String.valueOf(resMap.get("singleStock")));
+                return new Response().success(resMap);
+            }else{
+                return new Response().failure("对不起,该商品已经售罄!");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return new Response().failure(e.getMessage());
@@ -114,8 +126,25 @@ public class ProController {
     @RequestMapping(value = "/addToOrder",method = RequestMethod.POST)
     public Response addToOrder(@RequestBody OrDer orDer){
         try {
-            proService.addToOrder(orDer);
-            return new Response().success("添加成功");
+            String orderDetail = orDer.getProDetail();
+            String orderDetail1 = orderDetail.replace("{"," ").replace("}"," ").replace("\""," ");
+            orDer.setProDetail(orderDetail1);
+
+            //从订单明细中获取购买数量
+            HashMap detailMap = new Gson().fromJson(orderDetail,HashMap.class);
+            Double d = Double.parseDouble(detailMap.get("购买数量").toString());
+            Long increament = Math.round(d);
+            // 预占库存
+            Long stock =  cacheServices.decrBykey(orDer.getSpuId(),increament);
+            if(stock>=1){
+                proService.addToOrder(orDer);
+                // 订单添加成功之后
+                // 删除购物车
+                proService.delFormBuyCar(orDer.getBuyCarId());
+                return new Response().success("添加成功!");
+            }else{
+                return new Response().failure("库存不足!");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return new Response().failure(e.getMessage());
@@ -168,6 +197,23 @@ public class ProController {
             return new Response().failure(e.getMessage());
         }
     }
+
+    /**
+     * 支付后修改订单相关状态
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/realPay/{orderNo}",method = RequestMethod.POST)
+    public Response realPay(@PathVariable("orderNo") String orderNo){
+        try {
+            proService.orderPay(orderNo);
+            return new Response().success("支付成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Response().failure(e.getMessage());
+        }
+    }
+
 
 
 }

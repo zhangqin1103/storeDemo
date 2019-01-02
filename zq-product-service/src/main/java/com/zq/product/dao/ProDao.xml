@@ -122,7 +122,23 @@
     from s_product
   </select>
 
-    <select id="getProPrice" parameterType="map" resultType="String">
-        select price from  s_proSpu where proId =#{proId} and model =#{model} and size =#{size} and color =#{color}
+    <select id="getProPrice" parameterType="map" resultType="map">
+        select id,price,singleStock from  s_proSpu where proId =#{proId} and model =#{model} and size =#{size} and color =#{color}
     </select>
+<!--修改商品总表库存-->
+  <update id="updStock" parameterType="map">
+    update s_product set proStock = (proStock - #{buyNum}) where id = #{proId}
+  </update>
+  <!--修改商品属性表库存-->
+  <update id="updSingleStock" parameterType="map">
+    update s_prospu set singleStock = #{cacheStock} where id = #{spuId}
+  </update>
+
+  <select id="queryOrderByNo" parameterType="map" resultType="orDer">
+        ${_parameter}
+    </select>
+  <select id="query" parameterType="java.lang.String" resultType="java.lang.String">
+        ${_parameter}
+    </select>
+
 </mapper>
