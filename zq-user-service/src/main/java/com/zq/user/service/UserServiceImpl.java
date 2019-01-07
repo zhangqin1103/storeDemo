@@ -13,13 +13,12 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public String selectByPassword(String loginName,String password) {
+    public User selectByPassword(String loginName,String password) {
         User user =userDao.selectByLoginName(loginName);
         if(user!=null && user.getPassword().equals(password)){
-            return user.getId();
+            return user;
         }
-        return "";
-
+        return null;
     }
 
     @Override

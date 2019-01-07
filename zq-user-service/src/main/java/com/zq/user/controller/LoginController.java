@@ -16,8 +16,8 @@ public class LoginController {
         try{
             String loginName = user.getLoginName();
             String password = user.getPassword();
-            String userId =  userService.selectByPassword(loginName,password);
-            return new Response().success(userId);
+            User loginUser =  userService.selectByPassword(loginName,password);
+            return new Response().success(loginUser);
         }catch (Exception e){
             e.printStackTrace();
             return new Response().failure("登录失败!");

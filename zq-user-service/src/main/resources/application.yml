@@ -9,10 +9,9 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/storedemo?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&&useSSL=false
     username: root
     password: yesiwant
-#rabbitmq:   #rabbitmq端口说明：5672-amqp，25672-clustering，61613-stomp，1883-mqtt
-#    username: guest
-#    password: guest
-#    addresses: 127.0.0.1:5672
+logging:
+  level:
+    com.zq.user.dao: DEBUG
 
 eureka:
   client:
